@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { supabase } from '../lib/supabase';
 import { useTable } from '../lib/useTable';
 import {
@@ -13,7 +15,7 @@ export default function Articles() {
   const [modal, setModal] = useState<null | { doc?: DocumentRow }>(null);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [models, setModels] = useState<Model[]>([]);
-  const [form, setForm] = useState({ title: '', brand_id: '', model_id: '', pages: 0, is_premium: false, status: 'draft' });
+  const [form, setForm] = useState({ title: '', brand_id: '', model_id: '', pages: 0, is_premium: false, status: 'draft', content: '' });
 
   const filtered = rows.filter((a) => (a.title + (a.brands?.name || '')).toLowerCase().includes(q.toLowerCase()));
 
@@ -21,7 +23,7 @@ export default function Articles() {
     const { data } = await supabase.from('brands').select('*').order('name');
     setBrands((data || []) as Brand[]);
     setModels([]);
-    setForm({ title: '', brand_id: '', model_id: '', pages: 0, is_premium: false, status: 'draft' });
+    setForm({ title: '', brand_id: '', model_id: '', pages: 0, is_premium: false, status: 'draft', content: '' });
     setModal({});
   };
   const onBrandChange = async (brandId: string) => {
@@ -33,6 +35,21 @@ export default function Articles() {
     const { data: ms } = await supabase.from('models').select('*').in('line_id', lineIds).order('name');
     setModels((ms || []) as Model[]);
   };
+  const openEdit = async (d: DocumentRow) => {
+    const { data } = await supabase.from('brands').select('*').order('name');
+    setBrands((data || []) as Brand[]);
+    if (d.brand_id) await onBrandChange(d.brand_id);
+    setForm({
+      title: d.title,
+      brand_id: d.brand_id || '',
+      model_id: d.model_id || '',
+      pages: d.pages,
+      is_premium: d.is_premium,
+      status: d.status,
+      content: d.content || '',
+    });
+    setModal({ doc: d });
+  };
   const save = async () => {
     if (!form.title.trim()) { toast('Nhập tiêu đề'); return; }
     const payload = {
@@ -42,6 +59,7 @@ export default function Articles() {
       pages: Number(form.pages) || 0,
       is_premium: form.is_premium,
       status: form.status,
+      content: form.content || null,
     };
     const { error } = modal?.doc
       ? await supabase.from('documents').update(payload).eq('id', modal.doc.id)
@@ -83,6 +101,9 @@ export default function Articles() {
                   <td><Toggle on={a.is_premium} onChange={() => togglePremium(a)} /></td>
                   <td><Badge tone={a.status === 'published' ? 'green' : a.status === 'pending' ? 'blue' : 'gray'}>{a.status === 'published' ? 'Đã duyệt' : a.status === 'pending' ? 'Chờ duyệt' : 'Nháp'}</Badge></td>
                   <td style={{ whiteSpace: 'nowrap', textAlign: 'right' }}>
+                    <IconBtn title="Sửa" onClick={() => openEdit(a)}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M17 3l4 4L8 20l-5 1 1-5z" /></svg>
+                    </IconBtn>
                     <IconBtn title="Xóa" onClick={() => remove(a)}><TrashIcon /></IconBtn>
                   </td>
                 </tr>
@@ -92,7 +113,7 @@ export default function Articles() {
         )}
       </Card>
       {modal && (
-        <Modal title={modal.doc ? 'Sửa bài viết' : 'Thêm bài viết'} onClose={() => setModal(null)} onSave={save}>
+        <Modal wide title={modal.doc ? 'Sửa bài viết' : 'Thêm bài viết'} onClose={() => setModal(null)} onSave={save}>
           <Field label="Tiêu đề"><TextInput value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="VD: Sơ đồ mạch dàn lạnh FTKA" /></Field>
           <Field label="Hãng">
             <Select value={form.brand_id} onChange={(e) => onBrandChange(e.target.value)}>
@@ -107,6 +128,23 @@ export default function Articles() {
             </Select>
           </Field>
           <Field label="Số trang"><TextInput type="number" value={form.pages} onChange={(e) => setForm({ ...form, pages: Number(e.target.value) })} /></Field>
+          <Field label="Nội dung">
+            <ReactQuill
+              theme="snow"
+              value={form.content}
+              onChange={(v) => setForm({ ...form, content: v })}
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, false] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  [{ color: [] }, { background: [] }],
+                  ['link', 'image'],
+                  ['clean'],
+                ],
+              }}
+            />
+          </Field>
           <Field label="Trạng thái">
             <Select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
               <option value="draft">Nháp</option>

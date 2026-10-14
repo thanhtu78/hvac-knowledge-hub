@@ -25,6 +25,7 @@ export interface DocumentRow {
   model_id: string | null;
   file_url: string | null;
   pages: number;
+  content: string | null;
   is_premium: boolean;
   status: 'draft' | 'pending' | 'published';
   views: number;

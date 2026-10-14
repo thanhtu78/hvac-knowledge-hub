@@ -207,3 +207,23 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .main { padding: 18px 16px 60px; }
 }
+
+/* ---- React Quill neumorphic ---- */
+.ql-toolbar.ql-snow {
+  border: none !important;
+  border-radius: 12px 12px 0 0;
+  background: var(--bg);
+  box-shadow: inset 4px 4px 9px var(--sd), inset -4px -4px 9px var(--sl);
+  padding: 10px 12px !important;
+}
+.ql-container.ql-snow {
+  border: none !important;
+  border-radius: 0 0 12px 12px;
+  background: var(--bg);
+  box-shadow: inset 4px 4px 9px var(--sd), inset -4px -4px 9px var(--sl);
+  font-family: inherit;
+  font-size: 14px;
+  min-height: 220px;
+}
+.ql-editor { min-height: 220px; color: var(--ink); }
+.ql-editor.ql-blank::before { color: var(--mut); font-style: normal; }

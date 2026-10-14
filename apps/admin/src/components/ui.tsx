@@ -114,17 +114,19 @@ export function Modal({
   onClose,
   onSave,
   saveLabel = 'Lưu',
+  wide,
   children,
 }: {
   title: string;
   onClose: () => void;
   onSave: () => void;
   saveLabel?: string;
+  wide?: boolean;
   children: ReactNode;
 }) {
   return (
     <div className="modal-veil" onClick={onClose}>
-      <div className="neu modal-box" onClick={(e) => e.stopPropagation()}>
+      <div className="neu modal-box" style={wide ? { width: 760 } : undefined} onClick={(e) => e.stopPropagation()}>
         <h3>{title}</h3>
         {children}
         <div className="modal-actions">
