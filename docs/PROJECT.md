@@ -24,13 +24,18 @@ Mục tiêu: **mở app là tra được đáp án trong 30 giây**, kể cả k
 
 ## 4. Lộ trình
 
-- **Phase 1 (MVP):** 2 hãng phổ biến nhất VN (Daikin, Panasonic) + tra mã lỗi + offline
+- **Phase 1 (MVP):** frontend web + Admin CMS (deploy Vercel), 2 hãng phổ biến nhất VN (Daikin, Panasonic) + tra mã lỗi + offline
+- **Phase 1.5:** mobile native Android / iOS (React Native)
 - **Phase 2:** AI chatbot RAG hỏi đáp kỹ thuật
 - **Phase 3:** Cộng đồng (chia sẻ case thực tế, Q&A)
 
 ## 5. Cấu trúc app
 
-### Mobile (React Native) — 5 tab
+### Frontend web trước (React, deploy Vercel)
+
+Triển khai bản web trước để ra mắt nhanh; toàn bộ 5 tab bên dưới làm bản web responsive trước, mobile native (Android/iOS) làm sau.
+
+### Mobile native sau (React Native) — 5 tab
 
 1. **Trang chủ:** thanh tìm kiếm lớn, hãng phổ biến, tài liệu mới
 2. **Tra cứu:** hãng → dòng máy → model → danh sách tài liệu → xem PDF
@@ -51,6 +56,7 @@ Mục tiêu: **mở app là tra được đáp án trong 30 giây**, kể cả k
 | Backend / DB     | Supabase (PostgreSQL + Auth + pgvector) |
 | Lưu trữ PDF      | Cloudflare R2 (rẻ, không phí egress) |
 | Ảnh / video      | Cloudinary (optimize, streaming)   |
+| Deploy web + CMS | Vercel                             |
 
 Cấu trúc repo (monorepo): `apps/mobile`, `apps/web`, `packages/shared`
 
