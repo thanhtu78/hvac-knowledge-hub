@@ -85,7 +85,7 @@ export default function Layout() {
     <div className="app">
       <aside className="sidebar">
         <div className="logo">
-          <span className="logo-mark">H</span>
+          <img src="/logo.svg" alt="HVAC Hub" style={{ width: 40, height: 40 }} />
           <span>
             <b>HVAC Hub</b>
             <small>Admin CMS</small>

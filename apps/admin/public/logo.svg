@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="hvac-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5B93FF"/>
+      <stop offset="100%" stop-color="#2F63E7"/>
+    </linearGradient>
+  </defs>
+  <!-- H với thân là luồng gió uốn lượn -->
+  <path d="M42 24 C56 36 28 48 42 60 C56 72 28 84 42 96"
+        fill="none" stroke="url(#hvac-g)" stroke-width="15" stroke-linecap="round"/>
+  <path d="M78 24 C92 36 64 48 78 60 C92 72 64 84 78 96"
+        fill="none" stroke="url(#hvac-g)" stroke-width="15" stroke-linecap="round"/>
+  <path d="M42 60 H78" fill="none" stroke="url(#hvac-g)" stroke-width="15" stroke-linecap="round"/>
+</svg>
