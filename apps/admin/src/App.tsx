@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import { Toaster } from './components/ui';
-import { isSupabaseConfigured } from './lib/supabase';
+import { isSupabaseConfigured, supabase } from './lib/supabase';
 import Dashboard from './pages/Dashboard';
 import Articles from './pages/Articles';
 import ErrorCodes from './pages/ErrorCodes';
@@ -11,6 +12,7 @@ import Users from './pages/Users';
 import Billing from './pages/Billing';
 import Media from './pages/Media';
 import Notifications from './pages/Notifications';
+import Login from './pages/Login';
 
 function SetupScreen() {
   return (
@@ -38,12 +40,25 @@ function SetupScreen() {
   );
 }
 
+function AuthGate({ children }: { children: JSX.Element }) {
+  const [state, setState] = useState<'loading' | 'in' | 'out'>('loading');
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setState(data.session ? 'in' : 'out'));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setState(s ? 'in' : 'out'));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  if (state === 'loading') return <div className="spinner" />;
+  if (state === 'out') return <Navigate to="/login" replace />;
+  return children;
+}
+
 export default function App() {
   if (!isSupabaseConfigured) return <SetupScreen />;
   return (
     <>
       <Routes>
-        <Route element={<Layout />}>
+        <Route path="/login" element={<Login />} />
+        <Route element={<AuthGate><Layout /></AuthGate>}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/error-codes" element={<ErrorCodes />} />

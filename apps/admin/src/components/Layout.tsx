@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const ICONS: Record<string, JSX.Element> = {
   dash: (
@@ -75,6 +76,11 @@ export const NAV = [
 ];
 
 export default function Layout() {
+  const nav = useNavigate();
+  const logout = async () => {
+    await supabase.auth.signOut();
+    nav('/login');
+  };
   return (
     <div className="app">
       <aside className="sidebar">
@@ -96,10 +102,13 @@ export default function Layout() {
         <div className="side-foot">
           <div className="neu" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 10, borderRadius: 12 }}>
             <span className="logo-mark" style={{ width: 32, height: 32, fontSize: 13, borderRadius: 10 }}>A</span>
-            <span>
+            <span style={{ flex: 1 }}>
               <b style={{ fontSize: 12.5, display: 'block' }}>Admin</b>
               <small style={{ color: 'var(--mut)', fontSize: 10.5 }}>Quản trị viên</small>
             </span>
+            <button type="button" title="Đăng xuất" className="iconbtn" style={{ marginLeft: 0 }} onClick={logout}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" /></svg>
+            </button>
           </div>
         </div>
       </aside>
