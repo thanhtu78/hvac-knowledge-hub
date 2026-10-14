@@ -58,7 +58,32 @@ Triển khai bản web trước để ra mắt nhanh; toàn bộ 5 tab bên dư�
 | Ảnh / video      | Cloudinary (optimize, streaming)   |
 | Deploy web + CMS | Vercel                             |
 
-Cấu trúc repo (monorepo): `apps/mobile`, `apps/web`, `packages/shared`
+Cấu trúc repo (monorepo — pnpm workspaces + Turborepo):
+
+```
+hvac-knowledge-hub/
+├── apps/
+│   ├── web/              # React frontend user (Vercel) — làm trước
+│   │   └── src/
+│   │       ├── pages/        # Trang chủ, Tra cứu, Mã lỗi, Bảng tra, Cá nhân
+│   │       ├── components/   # UI theo style Neumorphic
+│   │       └── hooks/
+│   ├── admin/            # React Admin CMS (Vercel) — 9 phân hệ
+│   │   └── src/
+│   │       └── pages/        # dashboard, articles, error-codes, brands,
+│   │                         # checklists, users, billing, media, notifications
+│   └── mobile/           # React Native Android/iOS — làm sau (phase 1.5)
+├── packages/
+│   ├── ui/               # Design system Neumorphic dùng chung (web)
+│   ├── shared/           # types, constants, utils dùng chung
+│   └── supabase/         # client + queries + types từ DB
+├── supabase/
+│   ├── migrations/       # SQL migrations
+│   └── seed.sql
+└── docs/
+    ├── PROJECT.md
+    └── bang-mau-style-guide.md
+```
 
 ## 7. Data model chính
 
