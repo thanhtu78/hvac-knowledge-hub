@@ -74,15 +74,7 @@ export default function Login() {
     if (error) toast('Lỗi: ' + error.message);
   };
 
-  const forgot = async () => {
-    if (!email.trim()) {
-      toast('Nhập email vào ô đăng nhập trước');
-      return;
-    }
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim());
-    if (error) toast('Lỗi: ' + error.message);
-    else toast('Đã gửi link đặt lại mật khẩu qua email');
-  };
+  const forgot = () => nav('/forgot-password');
 
   return (
     <div className="login-page">

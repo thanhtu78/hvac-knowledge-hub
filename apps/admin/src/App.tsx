@@ -13,6 +13,8 @@ import Billing from './pages/Billing';
 import Media from './pages/Media';
 import Notifications from './pages/Notifications';
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function SetupScreen() {
   return (
@@ -58,6 +60,8 @@ export default function App() {
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<AuthGate><Layout /></AuthGate>}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/articles" element={<Articles />} />
