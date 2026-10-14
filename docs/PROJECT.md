@@ -116,8 +116,11 @@ hvac-knowledge-hub/
 
 ## 10. Authentication
 
-- Đăng nhập bằng **số điện thoại + OTP** (Supabase Auth)
-- Lưu ý chi phí: cần cấu hình SMS provider (Twilio hoặc tương đương), mỗi OTP tốn phí
+- Đăng nhập bằng **Google OAuth** (Supabase Auth) — chốt ngày 15/10/2026
+- Lý do: **0 chi phí SMS** (bỏ OTP), user không cần nhớ/quên mật khẩu, thợ Android bấm 1 chạm là xong
+- SĐT thu thập thêm trong profile (không bắt buộc), phục vụ liên hệ & hỗ trợ
+- Admin CMS đăng nhập riêng bằng email + mật khẩu (đã làm)
+- Cấu hình: Google Cloud Console → tạo OAuth Client ID → dán vào Supabase Dashboard → Authentication → Providers → Google
 
 ## 11. AI chatbot RAG (Phase 2)
 
