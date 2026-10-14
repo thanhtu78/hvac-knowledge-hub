@@ -1,0 +1,13 @@
+{
+  "name": "hvac-knowledge-hub",
+  "private": true,
+  "packageManager": "pnpm@9.1.0",
+  "scripts": {
+    "dev:admin": "pnpm --filter @hvac/admin dev",
+    "build:admin": "pnpm --filter @hvac/admin build"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.5.4"
+  }
+}
